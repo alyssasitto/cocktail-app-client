@@ -10,6 +10,7 @@ export const Login = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errMessage, setErrMessage] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleEmail = (e) => {
 		setEmail(e.target.value);
@@ -19,18 +20,27 @@ export const Login = () => {
 		setPassword(e.target.value);
 	};
 
+	// Function for when a user signs in
 	const handleSubmit = (e) => {
+		// Prevent the page from reloading
 		e.preventDefault();
+
+		// Set loading state to true
+		setIsLoading(true);
 
 		const body = {
 			email,
 			password,
 		};
 
+		// Make request to login route and send body with email and password that user typed in
 		axios
 			.post(`${API_URL}/login`, body)
 			.then((response) => {
+				// Use the storeItems() function to store the authToken and refreshToken
 				storeItems(response.data.authToken, response.data.refreshToken);
+				// Reload the page
+				window.location.reload();
 			})
 			.catch((err) => {
 				setErrMessage(err.response.data.err);
@@ -39,6 +49,7 @@ export const Login = () => {
 
 	return (
 		<div>
+			{isLoading && <p>loading...</p>}
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="email">Email:</label>
