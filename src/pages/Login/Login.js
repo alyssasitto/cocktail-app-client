@@ -43,6 +43,7 @@ export const Login = () => {
 				window.location.reload();
 			})
 			.catch((err) => {
+				setIsLoading(false);
 				setErrMessage(err.response.data.err);
 			});
 	};

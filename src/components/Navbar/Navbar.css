@@ -1,0 +1,8 @@
+nav ul {
+	display: flex;
+}
+
+nav li,
+nav button {
+	font-size: 2rem;
+}
