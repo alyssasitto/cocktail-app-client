@@ -1,8 +1,72 @@
-nav ul {
+nav {
 	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: var(--light-purple);
+	padding: 0.5rem 1rem 4rem;
+}
+
+nav.dark,
+nav.dark ul {
+	background-color: var(--dark-blue);
 }
 
 nav li,
 nav button {
 	font-size: 2rem;
+}
+
+nav img {
+	height: 4rem;
+}
+
+nav .btns {
+	display: flex;
+	gap: 2rem;
+}
+
+.site-logo img {
+	height: 2.5rem;
+}
+
+.nav-items {
+	position: relative;
+}
+
+.close-icons {
+	position: absolute;
+	top: 0;
+	z-index: 2;
+}
+
+.close-icons img {
+	width: 0px;
+	transition: width 0.5s ease-in;
+}
+
+nav.active .close-icons img {
+	width: 100%;
+}
+
+nav ul {
+	position: absolute;
+	display: flex;
+	gap: 2rem;
+	flex-direction: column;
+	background-color: var(--light-purple);
+	top: 0;
+	right: 0;
+	height: 100%;
+	width: 0px;
+	transition: width 0.5s ease-in;
+	padding: 8rem 0;
+	overflow-x: hidden;
+}
+
+nav.active ul {
+	width: 20rem;
+}
+
+.theme-btn img {
+	width: 3rem;
 }
