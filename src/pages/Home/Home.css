@@ -1,0 +1,88 @@
+.home-inputs {
+	position: relative;
+}
+
+.home input {
+	width: 100%;
+	height: 100%;
+	border: none;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	border-radius: 3px;
+	padding: 0 2rem;
+}
+
+.place-input,
+.address-input {
+	height: 5rem;
+	width: 90%;
+	margin: auto;
+}
+
+.place-input {
+	position: relative;
+	transform: translate(0, -50%);
+}
+
+.home.dark input {
+	color: var(--white);
+	background-color: var(--dark-blue);
+}
+
+.home.dark input::placeholder {
+	color: var(--white);
+}
+
+.input-btns {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	transform: translate(0, -50%);
+	display: flex;
+	gap: 3rem;
+	padding-right: 2rem;
+}
+
+.input-btns button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.place-input .search-btn {
+	width: 3.5rem;
+	height: 3.5rem;
+	background-color: var(--very-light-purple);
+	right: 2rem;
+	border-radius: 3px;
+	box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.dark .place-input .search-btn {
+	background-color: var(--grey-blue);
+}
+
+.place-input img {
+	width: 2.5rem;
+}
+
+.address-input {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 4rem);
+	display: none;
+}
+
+.address-input.active {
+	display: block;
+}
+
+.error {
+	border: 2px solid red;
+	border-radius: 3px;
+}
+
+.error input::placeholder,
+.home.dark .error input::placeholder {
+	color: red;
+}

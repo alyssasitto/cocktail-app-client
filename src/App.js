@@ -11,7 +11,6 @@ import Profile from "./pages/Profile/Profile";
 // Components
 import IsAnonymous from "./components/IsAnonymous";
 import IsPrivate from "./components/IsPrivate";
-import Navbar from "./components/Navbar/Navbar";
 
 require("./App.css");
 
@@ -20,7 +19,6 @@ function App() {
 
 	return (
 		<div className={"app " + theme}>
-			<Navbar />
 			<div className={theme}>
 				<Routes>
 					<Route path="/" element={<Home />} />
