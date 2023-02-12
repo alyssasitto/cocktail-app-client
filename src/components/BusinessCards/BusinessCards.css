@@ -1,0 +1,86 @@
+.bussiness-cards {
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+	padding: 0 3rem;
+}
+
+.card {
+	background-color: var(--white);
+	border-radius: 3px;
+	box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+}
+
+.dark .card {
+	background-color: #1f2529;
+}
+
+.card-image {
+	height: 20rem;
+	background-position: center;
+	background-size: cover;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	margin-bottom: 1rem;
+}
+
+.card-details {
+	padding: 1rem 1rem 3rem;
+}
+
+.card-name {
+	font-weight: bold;
+	margin-bottom: 0.5rem;
+}
+
+.card-rating-price {
+	margin-bottom: 1rem;
+	display: flex;
+	gap: 1.2rem;
+}
+
+.card-category {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.card-category p {
+	padding: 0.5rem 1rem;
+	border-radius: 5px;
+	background-color: rgb(232, 228, 228);
+}
+
+.dark .card-category p {
+	background-color: var(--grey-blue);
+}
+
+.card-details button {
+	text-align: center;
+	width: 100%;
+	padding: 1rem;
+	font-size: 2rem;
+	border-radius: 5px;
+	background-color: var(--very-light-purple);
+	box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+}
+
+.dark .card-details button {
+	background-color: var(--dark-blue);
+	color: var(--white);
+}
+
+.pagination-btns {
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+}
+
+.arrow {
+	width: 2rem;
+}
+
+.active-btn {
+	color: #6d67e4;
+}

@@ -1,5 +1,6 @@
 .address-item {
 	font-size: 1.6rem;
+	padding: 0.5rem;
 }
 
 .address-container {
@@ -7,4 +8,10 @@
 	flex-direction: column;
 	gap: 1.5rem;
 	background-color: var(--white);
+}
+
+.dark .address-container,
+.dark .address-item {
+	background-color: var(--dark-blue);
+	color: var(--white);
 }

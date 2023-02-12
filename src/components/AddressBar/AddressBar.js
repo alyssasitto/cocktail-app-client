@@ -26,14 +26,10 @@ const AddressBar = (props) => {
 						<div className="address-container">
 							{loading ? <p>loading...</p> : null}
 							{suggestions.map((suggestion) => {
-								const style = {
-									backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
-								};
-
 								return (
 									<div
 										className="address-item"
-										{...getSuggestionItemProps(suggestion, { style })}
+										{...getSuggestionItemProps(suggestion)}
 									>
 										{suggestion.description}
 									</div>

@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
+
 :root {
 	--light-purple: #9daff2;
 	--very-light-purple: #becaf7;
@@ -24,6 +26,8 @@ html {
 body {
 	font-family: sans-serif;
 	background-color: var(--very-light-grey);
+	font-size: 1.6rem;
+	font-family: "Lato", sans-serif;
 }
 
 a {
@@ -45,8 +49,10 @@ img {
 
 .dark {
 	background-color: var(--very-dark-blue-lb);
+	color: #fff;
 }
 
 .page {
 	min-height: 100vh;
+	padding-bottom: 2rem;
 }
