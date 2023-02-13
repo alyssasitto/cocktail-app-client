@@ -1,0 +1,69 @@
+.business nav {
+	padding: 1rem;
+}
+
+.business-details .business-image {
+	height: 20rem;
+	background-position: center;
+	background-size: cover;
+}
+
+.business-image {
+	position: relative;
+}
+
+.business-image::before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.548);
+	position: absolute;
+}
+
+.back-btn {
+	position: absolute;
+	width: 4rem;
+	left: 0;
+	top: 1rem;
+}
+
+.favorite-btn {
+	position: absolute;
+	width: 4rem;
+	right: 1rem;
+	top: 1rem;
+}
+
+.heading-icon {
+	width: 2rem;
+}
+
+.flex-helper {
+	display: flex;
+	gap: 3.5rem;
+	margin-top: 1.5rem;
+}
+
+.business-number,
+.business-address {
+	margin-bottom: 2rem;
+}
+
+.heading {
+	display: flex;
+	align-items: center;
+	gap: 0.7rem;
+	border-bottom: 1px solid var(--bright-blue);
+	padding-bottom: 0.5rem;
+	width: fit-content;
+	font-weight: bold;
+	padding-right: 0.8rem;
+}
+
+.business-details .card-details {
+	padding-bottom: 1rem;
+}
+
+.mt-helper {
+	margin-top: 0.5rem;
+}

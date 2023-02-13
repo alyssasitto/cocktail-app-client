@@ -23,10 +23,10 @@ const Navbar = () => {
 		<nav className={theme + " " + menu}>
 			<Link className="site-logo" href="/home">
 				{theme === "" && (
-					<img src="images/site-logo-black.png" alt="Site logo"></img>
+					<img src="images/site-logo-white1.png" alt="Site logo"></img>
 				)}
 				{theme === "dark" && (
-					<img src="images/site-logo-white.png" alt="Site logo"></img>
+					<img src="images/site-logo-white1.png" alt="Site logo"></img>
 				)}
 			</Link>
 
@@ -39,7 +39,7 @@ const Navbar = () => {
 				<button className="nav-btns">
 					<div className="menu-icons" onClick={() => toggleMenu()}>
 						{theme === "" && (
-							<img src="images/menu-logo-black.svg" alt="Menu icon"></img>
+							<img src="images/menu-logo-white.svg" alt="Menu icon"></img>
 						)}
 						{theme === "dark" && (
 							<img src="images/menu-logo-white.svg" alt="Menu icon"></img>

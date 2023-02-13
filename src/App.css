@@ -1,8 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 
 :root {
-	--light-purple: #9daff2;
-	--very-light-purple: #becaf7;
+	--light-purple: #291c1c;
+	--very-light-purple: #dddbdb;
+	--bright-blue: #ff1a38;
 	--dark-blue: #2b3945;
 	--grey-blue: #404d58;
 	--very-dark-blue-db: #202c37;

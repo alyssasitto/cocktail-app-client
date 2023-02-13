@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home";
 import Signup from "./pages/Signup/Signup";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
+import SingleBusiness from "./pages/SingleBusiness/SingleBusiness";
 
 // Components
 import IsAnonymous from "./components/IsAnonymous";
@@ -47,6 +48,8 @@ function App() {
 							</IsPrivate>
 						}
 					/>
+
+					<Route path="/business/:id" element={<SingleBusiness />} />
 				</Routes>
 			</div>
 		</div>

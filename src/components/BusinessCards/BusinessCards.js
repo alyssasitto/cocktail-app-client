@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useContext } from "react";
-import ReactDOM from "react-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { ThemeContext } from "../../context/theme.context";
 
 require("./BusinessCards.css");
 
 const BusinessCards = (props) => {
+	const navigate = useNavigate();
 	const { theme } = useContext(ThemeContext);
 
 	const [pageNumber, setPageNumber] = useState(0);
@@ -14,6 +15,10 @@ const BusinessCards = (props) => {
 	const businessesPerPage = 10;
 	const pagesVisited = pageNumber * businessesPerPage;
 	const pageCount = Math.ceil(businesses.length / businessesPerPage);
+
+	const viewBusiness = (id) => {
+		navigate(`/business/${id}`);
+	};
 
 	const displayBusinesses = businesses
 		.slice(pagesVisited, pagesVisited + businessesPerPage)
@@ -38,7 +43,7 @@ const BusinessCards = (props) => {
 							})}
 						</div>
 
-						<button>View details</button>
+						<button onClick={() => viewBusiness(el.id)}>View details</button>
 					</div>
 				</div>
 			);
