@@ -1,6 +1,9 @@
 import { useState, useContext } from "react";
+import Navbar from "../../components/Navbar/Navbar";
 import { AuthContext } from "../../context/auth.context";
 import axios from "axios";
+
+require("../Form.css");
 
 export const Login = () => {
 	const API_URL = process.env.REACT_APP_API_URL;
@@ -49,33 +52,38 @@ export const Login = () => {
 	};
 
 	return (
-		<div>
-			{isLoading && <p>loading...</p>}
-			<form onSubmit={handleSubmit}>
-				<div>
-					<label htmlFor="email">Email:</label>
-					<input
-						type="text"
-						name="email"
-						value={email}
-						onChange={handleEmail}
-					/>
-				</div>
-				<div>
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						name="password"
-						value={password}
-						onChange={handlePassword}
-					/>
-				</div>
-				<button type="submit">submit</button>
-			</form>
+		<div className="form-page">
+			<Navbar />
 
-			{errMessage && <p>{errMessage}</p>}
+			<div className="form-content">
+				{isLoading && <p>loading...</p>}
 
-			<a href="/">Home</a>
+				<form onSubmit={handleSubmit} className="form">
+					<div>
+						<label htmlFor="email">Email:</label>
+						<input
+							type="text"
+							name="email"
+							value={email}
+							onChange={handleEmail}
+						/>
+					</div>
+					<div>
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							name="password"
+							value={password}
+							onChange={handlePassword}
+						/>
+					</div>
+					<button type="submit">submit</button>
+				</form>
+
+				{errMessage && <p>{errMessage}</p>}
+
+				<a href="/">Home</a>
+			</div>
 		</div>
 	);
 };

@@ -1,5 +1,5 @@
-.home-inputs {
-	position: relative;
+.home nav {
+	padding: 0.5rem 1rem 4rem;
 }
 
 .home input {
@@ -9,6 +9,10 @@
 	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 	border-radius: 3px;
 	padding: 0 2rem;
+}
+
+.home-inputs {
+	position: relative;
 }
 
 .place-input,

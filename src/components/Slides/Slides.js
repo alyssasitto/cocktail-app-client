@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -12,7 +13,12 @@ import { Pagination } from "swiper";
 require("./Slides.css");
 
 export default function App(props) {
-	console.log(props.businesses);
+	const navigate = useNavigate();
+
+	const viewBusiness = (id) => {
+		navigate(`/business/${id}`);
+	};
+
 	return (
 		<>
 			<Swiper
@@ -28,7 +34,23 @@ export default function App(props) {
 					return (
 						<SwiperSlide>
 							<div className="slide">
-								<p>{el.name}</p>
+								<div
+									className="image"
+									style={{ backgroundImage: "url(" + el.image_url + ")" }}
+								></div>
+								<div className="slide-content">
+									<p>{el.name}</p>
+
+									<div className="card-rating-price">
+										<p>⭐⭐⭐⭐</p>
+										<p>•</p>
+										<p>{el.price ? el.price : "$"}</p>
+									</div>
+
+									<button onClick={() => viewBusiness(el.id)}>
+										View Details
+									</button>
+								</div>
 							</div>
 						</SwiperSlide>
 					);

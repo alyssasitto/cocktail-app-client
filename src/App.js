@@ -8,6 +8,7 @@ import Signup from "./pages/Signup/Signup";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
 import SingleBusiness from "./pages/SingleBusiness/SingleBusiness";
+import SearchResults from "./pages/SearchResults/SearchResults";
 
 // Components
 import IsAnonymous from "./components/IsAnonymous";
@@ -48,6 +49,8 @@ function App() {
 							</IsPrivate>
 						}
 					/>
+
+					<Route path="/search/:searchItem" element={<SearchResults />}></Route>
 
 					<Route path="/business/:id" element={<SingleBusiness />} />
 				</Routes>

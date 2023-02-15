@@ -1,0 +1,14 @@
+.form-page {
+	background-color: blanchedalmond;
+	height: 100vh;
+	overflow-y: hidden;
+}
+
+.form-content {
+	background-color: seagreen;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}

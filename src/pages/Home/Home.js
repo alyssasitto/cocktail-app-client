@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "../../context/theme.context";
 
@@ -14,6 +15,8 @@ require("./Home.css");
 const Home = () => {
 	const API_URL = process.env.REACT_APP_API_URL;
 
+	const navigate = useNavigate();
+
 	const { theme } = useContext(ThemeContext);
 
 	const [searchItem, setSearchItem] = useState("");
@@ -22,6 +25,7 @@ const Home = () => {
 	);
 	const [addressActive, setAddressActive] = useState("");
 	const [businesses, setBusinesses] = useState(null);
+	const [searchErr, setSearchErr] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [err, setErr] = useState("");
 
@@ -44,27 +48,11 @@ const Home = () => {
 	const handleSearch = () => {
 		if (!localStorage.getItem("address") || address === "") {
 			setAddressActive("active error");
+		} else if (searchItem === "") {
+			setSearchErr("error");
 		} else {
-			setLoading(true);
-
 			setAddressActive("");
-
-			axios
-				.post(`${API_URL}/search`, {
-					searchItem,
-					address,
-				})
-				.then((response) => {
-					setLoading(false);
-					localStorage.setItem(
-						"businesses",
-						JSON.stringify(response.data.businesses)
-					);
-					setBusinesses(response.data.businesses);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+			navigate(`/search/${searchItem}`);
 		}
 	};
 
@@ -104,6 +92,7 @@ const Home = () => {
 					toggleAddress={toggleAddress}
 					handleSearch={handleSearch}
 					handleSearchItem={handleSearchItem}
+					searchErr={searchErr}
 				/>
 				<AddressBar
 					address={address}

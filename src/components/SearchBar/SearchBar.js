@@ -6,7 +6,7 @@ const SearchBar = (props) => {
 	const { theme } = useContext(ThemeContext);
 
 	return (
-		<div className="place-input">
+		<div className={"place-input " + props.searchErr}>
 			<input
 				type="text"
 				value={props.searchItem}

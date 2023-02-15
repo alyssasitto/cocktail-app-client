@@ -46,7 +46,8 @@
 	margin-bottom: 1rem;
 }
 
-.card-category p {
+.card-category a {
+	color: black;
 	padding: 0.5rem 1rem;
 	border-radius: 5px;
 	background-color: rgb(232, 228, 228);

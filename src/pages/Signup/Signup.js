@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
+
+require("../Form.css");
 
 export const Signup = () => {
 	const API_URL = process.env.REACT_APP_API_URL;
@@ -10,6 +13,7 @@ export const Signup = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 	const [errMessage, setErrMessage] = useState("");
 
 	const handleName = (e) => {
@@ -27,6 +31,8 @@ export const Signup = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
+		setIsLoading(true);
+
 		const body = {
 			name,
 			email,
@@ -36,7 +42,7 @@ export const Signup = () => {
 		axios
 			.post(`${API_URL}/signup`, body)
 			.then(() => {
-				navigate("/login");
+				navigate("/profile");
 			})
 			.catch((err) => {
 				console.log(err.response.data.err);
@@ -45,36 +51,40 @@ export const Signup = () => {
 	};
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit}>
-				<div>
-					<label htmlFor="name">Name:</label>
-					<input type="text" name="name" value={name} onChange={handleName} />
-				</div>
-				<div>
-					<label htmlFor="email">Email:</label>
-					<input
-						type="text"
-						name="email"
-						value={email}
-						onChange={handleEmail}
-					/>
-				</div>
-				<div>
-					<label htmlFor="password">Password</label>
-					<input
-						type="password"
-						name="password"
-						value={password}
-						onChange={handlePassword}
-					/>
-				</div>
-				<button type="submit">submit</button>
-			</form>
+		<div className="form-page">
+			<Navbar />
 
-			{errMessage && <p>{errMessage}</p>}
+			<div className="form-content">
+				<form onSubmit={handleSubmit} className="form">
+					<div>
+						<label htmlFor="name">Name:</label>
+						<input type="text" name="name" value={name} onChange={handleName} />
+					</div>
+					<div>
+						<label htmlFor="email">Email:</label>
+						<input
+							type="text"
+							name="email"
+							value={email}
+							onChange={handleEmail}
+						/>
+					</div>
+					<div>
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							name="password"
+							value={password}
+							onChange={handlePassword}
+						/>
+					</div>
+					<button type="submit">submit</button>
+				</form>
 
-			<a href="/">Home</a>
+				{errMessage && <p>{errMessage}</p>}
+
+				<a href="/">Home</a>
+			</div>
 		</div>
 	);
 };

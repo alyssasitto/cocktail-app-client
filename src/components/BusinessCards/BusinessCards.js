@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 import ReactPaginate from "react-paginate";
 import { ThemeContext } from "../../context/theme.context";
 
@@ -39,7 +40,11 @@ const BusinessCards = (props) => {
 
 						<div className="card-category">
 							{el.categories.map((el) => {
-								return <p>{el.title}</p>;
+								return (
+									<Link to={`/search/${el.title}`} className="category">
+										{el.title}
+									</Link>
+								);
 							})}
 						</div>
 

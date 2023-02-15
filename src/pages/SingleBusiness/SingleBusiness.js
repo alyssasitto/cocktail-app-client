@@ -13,17 +13,25 @@ const SingleBusiness = () => {
 	const API_URL = process.env.REACT_APP_API_URL;
 	const { theme } = useContext(ThemeContext);
 	const { id } = useParams();
+
 	const navigate = useNavigate();
 
 	const [business, setBusiness] = useState(null);
 	const [favorited, setFavorited] = useState(false);
-	const [similar, setSimilar] = useState(null);
+
+	const [similar, setSimilar] = useState(
+		JSON.parse(localStorage.getItem("similar"))
+	);
+
+	const [loading, setLoading] = useState(false);
 
 	const back = () => {
 		navigate(-1);
 	};
 
 	useEffect(() => {
+		// setLoading(true);
+
 		if (!localStorage.getItem("business")) {
 			axios
 				.get(`${API_URL}/business/${id}`)
@@ -40,7 +48,8 @@ const SingleBusiness = () => {
 					});
 				})
 				.then((response) => {
-					console.log("THE RESPONSE", response);
+					setLoading(false);
+
 					localStorage.setItem(
 						"similar",
 						JSON.stringify(response.data.businesses)
@@ -62,7 +71,9 @@ const SingleBusiness = () => {
 		<div className={"business page " + theme}>
 			<Navbar />
 
-			{business && (
+			{loading && <p>loading....</p>}
+
+			{!loading && business && (
 				<div className="business-details">
 					<div
 						className="business-image"
@@ -149,7 +160,7 @@ const SingleBusiness = () => {
 						</div>
 					</div>
 
-					<Slides businesses={similar} />
+					{similar && <Slides businesses={similar} />}
 				</div>
 			)}
 		</div>
