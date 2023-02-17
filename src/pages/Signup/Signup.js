@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import { ThemeContext } from "../../context/theme.context";
 import Navbar from "../../components/Navbar/Navbar";
 import axios from "axios";
@@ -18,6 +18,7 @@ export const Signup = () => {
 	const [password, setPassword] = useState("");
 	const [inputType, setInputType] = useState("password");
 	const [isLoading, setIsLoading] = useState(false);
+	const [successMessage, setSuccessMessage] = useState("");
 	const [errMessage, setErrMessage] = useState("");
 
 	const handleName = (e) => {
@@ -57,12 +58,15 @@ export const Signup = () => {
 
 			axios
 				.post(`${API_URL}/signup`, body)
-				.then(() => {
-					navigate("/profile");
+				.then((response) => {
+					setIsLoading(false);
+					setSuccessMessage(response.data.message);
+					navigate("/login", {
+						state: { message: "User created please login" },
+					});
 				})
 				.catch((err) => {
 					setIsLoading(false);
-					console.log(err.response.data.err);
 					setErrMessage(err.response.data.err);
 				});
 		}
@@ -167,6 +171,9 @@ export const Signup = () => {
 							</div>
 						</div>
 
+						{successMessage && (
+							<p className="success-message">{successMessage}</p>
+						)}
 						{errMessage && <p className="err-message">{errMessage}</p>}
 
 						<button type="submit" className="form-btn">

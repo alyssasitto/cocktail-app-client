@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import { AuthContext } from "../../context/auth.context";
 import { ThemeContext } from "../../context/theme.context";
@@ -9,6 +9,9 @@ require("../Form.css");
 
 export const Login = () => {
 	const API_URL = process.env.REACT_APP_API_URL;
+
+	const location = useLocation();
+	const successMessage = location.state ? location.state.message : "";
 
 	const { storeItems } = useContext(AuthContext);
 	const { theme } = useContext(ThemeContext);
@@ -150,6 +153,9 @@ export const Login = () => {
 							</div>
 						</div>
 
+						{successMessage && (
+							<p className="success-message">{successMessage}</p>
+						)}
 						{errMessage && <p className="err-message">{errMessage}</p>}
 
 						<button type="submit" className="form-btn">

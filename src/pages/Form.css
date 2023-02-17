@@ -82,6 +82,12 @@
 	font-weight: bold;
 }
 
+.success-message {
+	text-align: center;
+	color: green;
+	font-weight: bold;
+}
+
 .err-message {
 	text-align: center;
 	color: red;
