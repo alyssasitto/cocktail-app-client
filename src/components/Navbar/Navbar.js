@@ -38,21 +38,11 @@ const Navbar = () => {
 
 				<button className="nav-btns">
 					<div className="menu-icons" onClick={() => toggleMenu()}>
-						{theme === "" && (
-							<img src="images/menu-logo-white.svg" alt="Menu icon"></img>
-						)}
-						{theme === "dark" && (
-							<img src="images/menu-logo-white.svg" alt="Menu icon"></img>
-						)}
+						<img src="images/menu-logo-white.svg" alt="Menu icon"></img>
 					</div>
 
-					<div className="close-icons" onClick={() => toggleMenu()}>
-						{theme === "" && (
-							<img src="images/close-logo-black.svg" alt="Clost icon"></img>
-						)}
-						{theme === "dark" && (
-							<img src="images/close-logo-white.svg" alt="Close icon"></img>
-						)}
+					<div className="close-icon" onClick={() => toggleMenu()}>
+						<img src="images/close-logo-white.svg" alt="Close icon"></img>
 					</div>
 				</button>
 				{isLoggedIn && (

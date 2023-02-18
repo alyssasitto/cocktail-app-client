@@ -37,18 +37,18 @@ nav .btns {
 	position: relative;
 }
 
-.close-icons {
+.close-icon {
 	position: absolute;
-	top: 0;
+	top: 1rem;
 	z-index: 3;
 }
 
-.close-icons img {
+.close-icon img {
 	width: 0px;
 	transition: width 0.5s ease-in;
 }
 
-nav.active .close-icons img {
+nav.active .close-icon img {
 	width: 100%;
 }
 
@@ -70,6 +70,12 @@ nav ul {
 
 nav.active ul {
 	width: 20rem;
+}
+
+nav ul li a,
+nav ul li button {
+	color: var(--white);
+	font-weight: bold;
 }
 
 .theme-btn img {
