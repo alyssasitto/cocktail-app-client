@@ -35,14 +35,16 @@ const Profile = () => {
 		<div className="profile-page">
 			<Navbar />
 
-			<div className="profile-page-content">
-				<h1>Hello {user.name[0].toUpperCase() + user.name.slice(1)}</h1>
+			{favorites && (
+				<div className="profile-page-content">
+					<h1>Hello {user.name[0].toUpperCase() + user.name.slice(1)}</h1>
 
-				<div>
-					<h2>Favorites</h2>
-					{favorites.length === 0 && <p>no favorites yet</p>}
+					<div>
+						<h2>Favorites</h2>
+						{favorites.length === 0 && <p>no favorites yet</p>}
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };

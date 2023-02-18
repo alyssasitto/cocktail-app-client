@@ -22,6 +22,37 @@
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	margin-bottom: 1rem;
+	text-align: right;
+	position: relative;
+}
+
+.card-image::before {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.21);
+	position: absolute;
+	left: 0;
+}
+
+.card-image button {
+	position: relative;
+}
+
+.card-image .heart-icon {
+	width: 4rem;
+	margin: 1rem 2rem 0 0;
+}
+
+.card-image .unlike-btn {
+	display: none;
+}
+
+.card-image.liked .unlike-btn {
+	display: inline-block;
+}
+.card-image.liked .like-btn {
+	display: none;
 }
 
 .card-details {

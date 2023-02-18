@@ -1,18 +1,23 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import ReactPaginate from "react-paginate";
 import { ThemeContext } from "../../context/theme.context";
+import axios from "axios";
 
 require("./BusinessCards.css");
 
 const BusinessCards = (props) => {
+	const API_URL = process.env.REACT_APP_API_URL;
+	const token = localStorage.getItem("auth_token");
 	const navigate = useNavigate();
+
 	const { theme } = useContext(ThemeContext);
 
 	const [pageNumber, setPageNumber] = useState(0);
-	const businesses = props.businesses;
+	const [favorites, setFavorites] = useState(null);
 
+	const businesses = props.businesses;
 	const businessesPerPage = 10;
 	const pagesVisited = pageNumber * businessesPerPage;
 	const pageCount = Math.ceil(businesses.length / businessesPerPage);
@@ -21,15 +26,87 @@ const BusinessCards = (props) => {
 		navigate(`/business/${id}`);
 	};
 
+	const like = (e, id) => {
+		e.target.parentNode.parentNode.classList.add("liked");
+
+		const body = {
+			id,
+		};
+
+		axios
+			.post(`${API_URL}/like`, body, {
+				headers: { token },
+			})
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	const unlike = (e, id) => {
+		e.target.parentNode.parentNode.classList.remove("liked");
+
+		const body = {
+			id,
+		};
+
+		axios
+			.post(`${API_URL}/unlike`, body, {
+				headers: { token },
+			})
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	useEffect(() => {
+		axios
+			.get(`${API_URL}/favorites`, {
+				headers: { token },
+			})
+			.then((response) => {
+				console.log(response);
+				setFavorites(response.data.favorites);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
+
+	console.log("WOOOOOO", favorites);
+
 	const displayBusinesses = businesses
 		.slice(pagesVisited, pagesVisited + businessesPerPage)
 		.map((el) => {
 			return (
-				<div className="card" key={el.id}>
+				<div className={"card "} key={el.id}>
 					<div
-						className="card-image"
+						className={`card-image ${
+							favorites && favorites.indexOf(el.id) !== -1 ? "liked" : ""
+						} `}
 						style={{ backgroundImage: "url(" + el.image_url + ")" }}
-					></div>
+					>
+						<button onClick={(e) => like(e, el.id)} className="like-btn">
+							<img
+								src="images/heart-outline.svg"
+								className="heart-icon"
+								alt="Heart icon"
+							></img>
+						</button>
+
+						<button onClick={(e) => unlike(e, el.id)} className="unlike-btn">
+							<img
+								src="images/heart-filled.svg"
+								className="heart-icon"
+								alt="Heart icon"
+							></img>
+						</button>
+					</div>
 					<div className="card-details">
 						<p className="card-name">{el.name}</p>
 						<div className="card-rating-price">
@@ -60,7 +137,7 @@ const BusinessCards = (props) => {
 
 	return (
 		<div className="bussiness-cards">
-			{displayBusinesses}
+			{favorites && displayBusinesses}
 			<ReactPaginate
 				previousLabel={
 					theme === "" ? (
