@@ -2,7 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 import ReactPaginate from "react-paginate";
+
 import { ThemeContext } from "../../context/theme.context";
+
 import axios from "axios";
 
 require("./BusinessCards.css");
@@ -16,6 +18,8 @@ const BusinessCards = (props) => {
 
 	const [pageNumber, setPageNumber] = useState(0);
 	const [favorites, setFavorites] = useState(null);
+	const [favoritesIds, setFavoritesIds] = useState([]);
+	const [showModal, setShowModal] = useState("");
 
 	const businesses = props.businesses;
 	const businessesPerPage = 10;
@@ -26,72 +30,83 @@ const BusinessCards = (props) => {
 		navigate(`/business/${id}`);
 	};
 
-	const like = (e, id) => {
-		e.target.parentNode.parentNode.classList.add("liked");
+	const like = (e, business) => {
+		if (!token) {
+			console.log("must be signed in to like");
 
-		const body = {
-			id,
-		};
+			props.setShowModal("show-modal");
+		} else {
+			e.target.parentNode.parentNode.classList.add("liked");
 
-		axios
-			.post(`${API_URL}/like`, body, {
-				headers: { token },
-			})
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+			const body = {
+				business,
+			};
+
+			axios
+				.post(`${API_URL}/like`, body, {
+					headers: { token },
+				})
+				.then((response) => {
+					console.log(response);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	};
 
-	const unlike = (e, id) => {
-		e.target.parentNode.parentNode.classList.remove("liked");
+	const unlike = (e, business) => {
+		if (!token) {
+			console.log("must be signed in to like");
+		} else {
+			e.target.parentNode.parentNode.classList.remove("liked");
 
-		const body = {
-			id,
-		};
+			const body = {
+				business,
+			};
 
-		axios
-			.post(`${API_URL}/unlike`, body, {
-				headers: { token },
-			})
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+			axios
+				.post(`${API_URL}/unlike`, body, {
+					headers: { token },
+				})
+				.then((response) => {
+					console.log(response);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	};
 
 	useEffect(() => {
-		axios
-			.get(`${API_URL}/favorites`, {
-				headers: { token },
-			})
-			.then((response) => {
-				console.log(response);
-				setFavorites(response.data.favorites);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		if (token) {
+			axios
+				.get(`${API_URL}/favorites`, {
+					headers: { token },
+				})
+				.then((response) => {
+					console.log(response);
+					setFavorites(response.data.favorites);
+					console.log("haaaaaa", response.data.favorites);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	}, []);
 
-	console.log("WOOOOOO", favorites);
+	console.log(favorites);
 
 	const displayBusinesses = businesses
 		.slice(pagesVisited, pagesVisited + businessesPerPage)
-		.map((el) => {
+		.map((el, i) => {
 			return (
 				<div className={"card "} key={el.id}>
 					<div
-						className={`card-image ${
-							favorites && favorites.indexOf(el.id) !== -1 ? "liked" : ""
-						} `}
+						className={`card-image  `}
 						style={{ backgroundImage: "url(" + el.image_url + ")" }}
 					>
-						<button onClick={(e) => like(e, el.id)} className="like-btn">
+						<button onClick={(e) => like(e, el)} className="like-btn">
 							<img
 								src="images/heart-outline.svg"
 								className="heart-icon"
@@ -99,7 +114,7 @@ const BusinessCards = (props) => {
 							></img>
 						</button>
 
-						<button onClick={(e) => unlike(e, el.id)} className="unlike-btn">
+						<button onClick={(e) => unlike(e, el)} className="unlike-btn">
 							<img
 								src="images/heart-filled.svg"
 								className="heart-icon"
@@ -135,9 +150,13 @@ const BusinessCards = (props) => {
 		setPageNumber(selected);
 	};
 
+	// ${
+	// 					favorites && favorites.indexOf(el.id) !== -1 ? "liked" : ""
+	// 				}
+
 	return (
-		<div className="bussiness-cards">
-			{favorites && displayBusinesses}
+		<div className={"bussiness-cards " + showModal}>
+			{displayBusinesses}
 			<ReactPaginate
 				previousLabel={
 					theme === "" ? (

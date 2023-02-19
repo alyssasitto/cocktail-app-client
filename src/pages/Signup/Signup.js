@@ -73,7 +73,7 @@ export const Signup = () => {
 	};
 
 	return (
-		<div className="form-page">
+		<div className={"form-page " + theme}>
 			<Navbar />
 
 			{isLoading && <p>loading...</p>}
@@ -182,7 +182,7 @@ export const Signup = () => {
 					</form>
 
 					<Link to="/login" className="link">
-						Already have an account? <span>Login here</span>
+						Already have an account? <span>Login</span>
 					</Link>
 				</div>
 			)}

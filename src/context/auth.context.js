@@ -19,6 +19,8 @@ function AuthProviderWrapper(props) {
 
 	// Function for checking if the auth token has expired, returns true or false
 	const hasTokenExpired = () => {
+		// Check if
+
 		// Grab the refresh token and timestamp from local storage
 		const refreshToken = localStorage.getItem("refresh_token");
 		const timestamp = localStorage.getItem("auth_token_timestamp");
@@ -66,8 +68,8 @@ function AuthProviderWrapper(props) {
 					localStorage.setItem("auth_token_timestamp", Date.now());
 					window.location.reload();
 				})
-				.catch((err) => {
-					console.log(err);
+				.catch(() => {
+					logout();
 				});
 		}
 	};

@@ -5,6 +5,7 @@ import { ThemeContext } from "../../context/theme.context";
 
 import axios from "axios";
 
+import Modal from "../../components/Modal/Modal";
 import Navbar from "../../components/Navbar/Navbar";
 import AddressBar from "../../components/AddressBar/AddressBar";
 import SearchBar from "../../components/SearchBar/SearchBar";
@@ -28,6 +29,8 @@ const Home = () => {
 	const [searchErr, setSearchErr] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [err, setErr] = useState("");
+
+	const [showModal, setShowModal] = useState("");
 
 	const handleSearchItem = (e) => {
 		setSearchItem(e.target.value);
@@ -83,26 +86,34 @@ const Home = () => {
 
 	console.log(businesses);
 	return (
-		<div className={"home page " + theme}>
+		<div className={"home page " + theme + " " + showModal}>
 			<Navbar />
-			<div className="home-inputs">
-				<SearchBar
-					searchItem={searchItem}
-					setSearchItem={setSearchItem}
-					toggleAddress={toggleAddress}
-					handleSearch={handleSearch}
-					handleSearchItem={handleSearchItem}
-					searchErr={searchErr}
-				/>
-				<AddressBar
-					address={address}
-					setAddress={setAddress}
-					handleAddress={handleAddress}
-					addressActive={addressActive}
-				/>
 
-				{businesses && !loading && <BusinessCards businesses={businesses} />}
-			</div>
+			{showModal === "show-modal" && <Modal setShowModal={setShowModal} />}
+
+			<SearchBar
+				searchItem={searchItem}
+				setSearchItem={setSearchItem}
+				toggleAddress={toggleAddress}
+				handleSearch={handleSearch}
+				handleSearchItem={handleSearchItem}
+				searchErr={searchErr}
+			/>
+			<AddressBar
+				address={address}
+				setAddress={setAddress}
+				handleAddress={handleAddress}
+				addressActive={addressActive}
+			/>
+
+			{businesses && !loading && (
+				<BusinessCards
+					businesses={businesses}
+					showModal={showModal}
+					setShowModal={setShowModal}
+				/>
+			)}
+
 			{loading && <p>LOADING......</p>}
 			{err && <p>{err}</p>}
 		</div>

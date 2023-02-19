@@ -5,6 +5,12 @@
 	padding: 0 3rem;
 }
 
+.bussiness-cards.show-modal {
+	height: 100%;
+	overflow-y: hidden;
+	position: fixed;
+}
+
 .card {
 	background-color: var(--white);
 	border-radius: 3px;
@@ -82,6 +88,11 @@
 	padding: 0.5rem 1rem;
 	border-radius: 5px;
 	background-color: rgb(232, 228, 228);
+}
+
+.dark .card-category a {
+	background-color: var(--grey-blue);
+	color: var(--white);
 }
 
 .dark .card-category p {
