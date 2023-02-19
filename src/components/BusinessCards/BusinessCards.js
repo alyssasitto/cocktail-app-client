@@ -88,6 +88,9 @@ const BusinessCards = (props) => {
 					console.log(response);
 					setFavorites(response.data.favorites);
 					console.log("haaaaaa", response.data.favorites);
+
+					const ids = response.data.favorites.map((el) => el.id);
+					setFavoritesIds(ids);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -96,54 +99,113 @@ const BusinessCards = (props) => {
 	}, []);
 
 	console.log(favorites);
+	console.log(favoritesIds);
 
 	const displayBusinesses = businesses
 		.slice(pagesVisited, pagesVisited + businessesPerPage)
 		.map((el, i) => {
-			return (
-				<div className={"card "} key={el.id}>
+			console.log(favoritesIds.indexOf(el.id));
+
+			if (token && favorites) {
+				return (
+					<div className={`card`} key={el.id}>
+						<div
+							className={`card-image  ${
+								favoritesIds && favoritesIds.indexOf(el.id) !== -1
+									? "liked"
+									: ""
+							}`}
+							style={{ backgroundImage: "url(" + el.image_url + ")" }}
+						>
+							<button onClick={(e) => like(e, el)} className="like-btn">
+								<img
+									src="images/heart-outline.svg"
+									className="heart-icon"
+									alt="Heart icon"
+								></img>
+							</button>
+
+							<button onClick={(e) => unlike(e, el)} className="unlike-btn">
+								<img
+									src="images/heart-filled.svg"
+									className="heart-icon"
+									alt="Heart icon"
+								></img>
+							</button>
+						</div>
+						<div className="card-details">
+							<p className="card-name">{el.name}</p>
+							<div className="card-rating-price">
+								<p>⭐⭐⭐⭐</p>
+								<p>•</p>
+								<p>{el.price ? el.price : "$"}</p>
+							</div>
+
+							<div className="card-category">
+								{el.categories.map((el) => {
+									return (
+										<Link to={`/search/${el.title}`} className="category">
+											{el.title}
+										</Link>
+									);
+								})}
+							</div>
+
+							<button onClick={() => viewBusiness(el.id)}>View details</button>
+						</div>
+					</div>
+				);
+			} else {
+				return (
 					<div
-						className={`card-image  `}
-						style={{ backgroundImage: "url(" + el.image_url + ")" }}
+						className={`card ${
+							favoritesIds && favoritesIds.indexOf(el.id) !== -1 ? "liked" : ""
+						}`}
+						key={el.id}
 					>
-						<button onClick={(e) => like(e, el)} className="like-btn">
-							<img
-								src="images/heart-outline.svg"
-								className="heart-icon"
-								alt="Heart icon"
-							></img>
-						</button>
+						<div
+							className={`card-image  `}
+							style={{ backgroundImage: "url(" + el.image_url + ")" }}
+						>
+							<button onClick={(e) => like(e, el)} className="like-btn">
+								<img
+									src="images/heart-outline.svg"
+									className="heart-icon"
+									alt="Heart icon"
+								></img>
+							</button>
 
-						<button onClick={(e) => unlike(e, el)} className="unlike-btn">
-							<img
-								src="images/heart-filled.svg"
-								className="heart-icon"
-								alt="Heart icon"
-							></img>
-						</button>
-					</div>
-					<div className="card-details">
-						<p className="card-name">{el.name}</p>
-						<div className="card-rating-price">
-							<p>⭐⭐⭐⭐</p>
-							<p>•</p>
-							<p>{el.price ? el.price : "$"}</p>
+							<button onClick={(e) => unlike(e, el)} className="unlike-btn">
+								<img
+									src="images/heart-filled.svg"
+									className="heart-icon"
+									alt="Heart icon"
+								></img>
+							</button>
 						</div>
+						<div className="card-details">
+							<p className="card-name">{el.name}</p>
+							<div className="card-rating-price">
+								<p>⭐⭐⭐⭐</p>
+								<p>•</p>
+								<p>{el.price ? el.price : "$"}</p>
+							</div>
 
-						<div className="card-category">
-							{el.categories.map((el) => {
-								return (
-									<Link to={`/search/${el.title}`} className="category">
-										{el.title}
-									</Link>
-								);
-							})}
+							<div className="card-category">
+								{el.categories.map((el) => {
+									return (
+										<Link to={`/search/${el.title}`} className="category">
+											{el.title}
+										</Link>
+									);
+								})}
+							</div>
+
+							<button onClick={() => viewBusiness(el.id)}>View details</button>
 						</div>
-
-						<button onClick={() => viewBusiness(el.id)}>View details</button>
 					</div>
-				</div>
-			);
+				);
+			}
 		});
 
 	const changePage = ({ selected }) => {

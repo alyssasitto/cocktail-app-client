@@ -60,7 +60,17 @@
 	border-radius: 5px;
 }
 
-.dark .input-container input {
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active {
+	-webkit-box-shadow: 0 0 0 30px var(--dark-blue) inset !important;
+	-webkit-text-fill-color: var(--white);
+}
+
+.dark input,
+.dark input:focus {
+	color: var(--white);
 	background-color: var(--dark-blue);
 }
 

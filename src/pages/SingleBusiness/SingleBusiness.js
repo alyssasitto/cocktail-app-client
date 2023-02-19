@@ -29,6 +29,14 @@ const SingleBusiness = () => {
 		navigate(-1);
 	};
 
+	const like = () => {
+		setFavorited(true);
+	};
+
+	const unlike = () => {
+		setFavorited(false);
+	};
+
 	useEffect(() => {
 		// setLoading(true);
 
@@ -86,16 +94,20 @@ const SingleBusiness = () => {
 							></img>
 						</button>
 
-						<button className="favorite-btn">
-							{favorited ? (
-								<img src="images/filled-heart.svg" className="Heart icon"></img>
+						<div className="favorite-btn">
+							{!favorited ? (
+								<button onClick={() => like()}>
+									<img
+										src="images/heart-outline.svg"
+										className="Heart icon"
+									></img>
+								</button>
 							) : (
-								<img
-									src="images/heart-outline.svg"
-									className="Heart icon"
-								></img>
+								<button onClick={() => unlike()}>
+									<img src="images/heart-filled.svg" alt="Heart icon"></img>
+								</button>
 							)}
-						</button>
+						</div>
 					</div>
 
 					<div className="card-details">
