@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 
 import { AuthContext } from "../../context/auth.context";
 import Navbar from "../../components/Navbar/Navbar";
+import BusinessCards from "../../components/BusinessCards/BusinessCards";
 
 import axios from "axios";
 
@@ -29,8 +30,6 @@ const Profile = () => {
 			});
 	}, []);
 
-	console.log(favorites);
-
 	return (
 		<div className="profile-page">
 			<Navbar />
@@ -42,6 +41,8 @@ const Profile = () => {
 					<div>
 						<h2>Favorites</h2>
 						{favorites.length === 0 && <p>no favorites yet</p>}
+
+						{favorites.length > 0 && <BusinessCards businesses={favorites} />}
 					</div>
 				</div>
 			)}

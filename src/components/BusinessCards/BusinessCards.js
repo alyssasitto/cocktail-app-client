@@ -4,6 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
 import { ThemeContext } from "../../context/theme.context";
+import { AuthContext } from "../../context/auth.context";
 
 import axios from "axios";
 
@@ -15,11 +16,11 @@ const BusinessCards = (props) => {
 	const navigate = useNavigate();
 
 	const { theme } = useContext(ThemeContext);
+	const { isLoggedIn, user } = useContext(AuthContext);
 
 	const [pageNumber, setPageNumber] = useState(0);
-	const [favorites, setFavorites] = useState(null);
-	const [favoritesIds, setFavoritesIds] = useState([]);
 	const [showModal, setShowModal] = useState("");
+	const [favorites, setFavorites] = useState(null);
 
 	const businesses = props.businesses;
 	const businessesPerPage = 10;
@@ -31,7 +32,7 @@ const BusinessCards = (props) => {
 	};
 
 	const like = (e, business) => {
-		if (!token) {
+		if (!token || !isLoggedIn) {
 			console.log("must be signed in to like");
 
 			props.setShowModal("show-modal");
@@ -78,6 +79,61 @@ const BusinessCards = (props) => {
 		}
 	};
 
+	const displayBusinesses = businesses
+		.slice(pagesVisited, pagesVisited + businessesPerPage)
+		.map((el, i) => {
+			return (
+				<div className={`card `} key={el.id}>
+					<div
+						className={`card-image 	${
+							favorites && favorites.indexOf(el.id) !== -1 ? "liked" : ""
+						}`}
+						style={{ backgroundImage: "url(" + el.image_url + ")" }}
+					>
+						<button onClick={(e) => like(e, el)} className="like-btn">
+							<img
+								src="images/heart-outline.svg"
+								className="heart-icon"
+								alt="Heart icon"
+							></img>
+						</button>
+
+						<button onClick={(e) => unlike(e, el)} className="unlike-btn">
+							<img
+								src="images/heart-filled.svg"
+								className="heart-icon"
+								alt="Heart icon"
+							></img>
+						</button>
+					</div>
+					<div className="card-details">
+						<p className="card-name">{el.name}</p>
+						<div className="card-rating-price">
+							<p>⭐⭐⭐⭐</p>
+							<p>•</p>
+							<p>{el.price ? el.price : "$"}</p>
+						</div>
+
+						<div className="card-category">
+							{el.categories.map((el) => {
+								return (
+									<Link to={`/search/${el.title}`} className="category">
+										{el.title}
+									</Link>
+								);
+							})}
+						</div>
+
+						<button onClick={() => viewBusiness(el.id)}>View details</button>
+					</div>
+				</div>
+			);
+		});
+
+	const changePage = ({ selected }) => {
+		setPageNumber(selected);
+	};
+
 	useEffect(() => {
 		if (token) {
 			axios
@@ -85,12 +141,8 @@ const BusinessCards = (props) => {
 					headers: { token },
 				})
 				.then((response) => {
-					console.log(response);
-					setFavorites(response.data.favorites);
-					console.log("haaaaaa", response.data.favorites);
-
-					const ids = response.data.favorites.map((el) => el.id);
-					setFavoritesIds(ids);
+					const favoritesIds = response.data.favorites.map((el) => el.id);
+					setFavorites(favoritesIds);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -98,127 +150,10 @@ const BusinessCards = (props) => {
 		}
 	}, []);
 
-	console.log(favorites);
-	console.log(favoritesIds);
-
-	const displayBusinesses = businesses
-		.slice(pagesVisited, pagesVisited + businessesPerPage)
-		.map((el, i) => {
-			console.log(favoritesIds.indexOf(el.id));
-
-			if (token && favorites) {
-				return (
-					<div className={`card`} key={el.id}>
-						<div
-							className={`card-image  ${
-								favoritesIds && favoritesIds.indexOf(el.id) !== -1
-									? "liked"
-									: ""
-							}`}
-							style={{ backgroundImage: "url(" + el.image_url + ")" }}
-						>
-							<button onClick={(e) => like(e, el)} className="like-btn">
-								<img
-									src="images/heart-outline.svg"
-									className="heart-icon"
-									alt="Heart icon"
-								></img>
-							</button>
-
-							<button onClick={(e) => unlike(e, el)} className="unlike-btn">
-								<img
-									src="images/heart-filled.svg"
-									className="heart-icon"
-									alt="Heart icon"
-								></img>
-							</button>
-						</div>
-						<div className="card-details">
-							<p className="card-name">{el.name}</p>
-							<div className="card-rating-price">
-								<p>⭐⭐⭐⭐</p>
-								<p>•</p>
-								<p>{el.price ? el.price : "$"}</p>
-							</div>
-
-							<div className="card-category">
-								{el.categories.map((el) => {
-									return (
-										<Link to={`/search/${el.title}`} className="category">
-											{el.title}
-										</Link>
-									);
-								})}
-							</div>
-
-							<button onClick={() => viewBusiness(el.id)}>View details</button>
-						</div>
-					</div>
-				);
-			} else {
-				return (
-					<div
-						className={`card ${
-							favoritesIds && favoritesIds.indexOf(el.id) !== -1 ? "liked" : ""
-						}`}
-						key={el.id}
-					>
-						<div
-							className={`card-image  `}
-							style={{ backgroundImage: "url(" + el.image_url + ")" }}
-						>
-							<button onClick={(e) => like(e, el)} className="like-btn">
-								<img
-									src="images/heart-outline.svg"
-									className="heart-icon"
-									alt="Heart icon"
-								></img>
-							</button>
-
-							<button onClick={(e) => unlike(e, el)} className="unlike-btn">
-								<img
-									src="images/heart-filled.svg"
-									className="heart-icon"
-									alt="Heart icon"
-								></img>
-							</button>
-						</div>
-						<div className="card-details">
-							<p className="card-name">{el.name}</p>
-							<div className="card-rating-price">
-								<p>⭐⭐⭐⭐</p>
-								<p>•</p>
-								<p>{el.price ? el.price : "$"}</p>
-							</div>
-
-							<div className="card-category">
-								{el.categories.map((el) => {
-									return (
-										<Link to={`/search/${el.title}`} className="category">
-											{el.title}
-										</Link>
-									);
-								})}
-							</div>
-
-							<button onClick={() => viewBusiness(el.id)}>View details</button>
-						</div>
-					</div>
-				);
-			}
-		});
-
-	const changePage = ({ selected }) => {
-		setPageNumber(selected);
-	};
-
-	// ${
-	// 					favorites && favorites.indexOf(el.id) !== -1 ? "liked" : ""
-	// 				}
-
 	return (
 		<div className={"bussiness-cards " + showModal}>
-			{displayBusinesses}
+			{isLoggedIn && displayBusinesses}
+			{!isLoggedIn && displayBusinesses}
 			<ReactPaginate
 				previousLabel={
 					theme === "" ? (

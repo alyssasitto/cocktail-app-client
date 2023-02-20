@@ -8,13 +8,13 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-	<Router>
-		<ThemeProviderWrapper>
-			<AuthProviderWrapper>
+	<AuthProviderWrapper>
+		<Router>
+			<ThemeProviderWrapper>
 				<App />
-			</AuthProviderWrapper>
-		</ThemeProviderWrapper>
-	</Router>
+			</ThemeProviderWrapper>
+		</Router>
+	</AuthProviderWrapper>
 );
 
 // If you want to start measuring performance in your app, pass a function

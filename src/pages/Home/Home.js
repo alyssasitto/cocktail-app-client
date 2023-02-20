@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ThemeContext } from "../../context/theme.context";
+import { AuthContext } from "../../context/auth.context";
 
 import axios from "axios";
 
@@ -19,6 +20,7 @@ const Home = () => {
 	const navigate = useNavigate();
 
 	const { theme } = useContext(ThemeContext);
+	const { user } = useContext(AuthContext);
 
 	const [searchItem, setSearchItem] = useState("");
 	const [address, setAddress] = useState(
@@ -60,31 +62,26 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		if (!localStorage.getItem("businesses")) {
-			setLoading(true);
+		setLoading(true);
 
-			axios
-				.post(`${API_URL}/search`, {
-					searchItem: "",
-					address: "USA",
-				})
-				.then((response) => {
-					setLoading(false);
-					localStorage.setItem(
-						"businesses",
-						JSON.stringify(response.data.businesses)
-					);
-					setBusinesses(response.data.businesses);
-				})
-				.catch(() => {
-					setErr("something went wrong");
-				});
-		} else {
-			setBusinesses(JSON.parse(localStorage.getItem("businesses")));
-		}
+		axios
+			.post(`${API_URL}/search`, {
+				searchItem: "",
+				address: "USA",
+			})
+			.then((response) => {
+				setLoading(false);
+				localStorage.setItem(
+					"businesses",
+					JSON.stringify(response.data.businesses)
+				);
+				setBusinesses(response.data.businesses);
+			})
+			.catch(() => {
+				setErr("something went wrong");
+			});
 	}, []);
-
-	console.log(businesses);
+	console.log(user);
 	return (
 		<div className={"home page " + theme + " " + showModal}>
 			<Navbar />

@@ -1,9 +1,12 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import Navbar from "../../components/Navbar/Navbar";
 import { ThemeContext } from "../../context/theme.context";
+import { AuthContext } from "../../context/auth.context";
+
+import Navbar from "../../components/Navbar/Navbar";
 import Slides from "../../components/Slides/Slides";
+import Modal from "../../components/Modal/Modal";
 
 import axios from "axios";
 
@@ -11,13 +14,17 @@ require("./SingleBusiness.css");
 
 const SingleBusiness = () => {
 	const API_URL = process.env.REACT_APP_API_URL;
+	const token = localStorage.getItem("auth_token");
 	const { theme } = useContext(ThemeContext);
+	const { isLoggedIn, user } = useContext(AuthContext);
 	const { id } = useParams();
 
 	const navigate = useNavigate();
 
 	const [business, setBusiness] = useState(null);
 	const [favorited, setFavorited] = useState(false);
+	const [favoriteIds, setFavoriteIds] = useState();
+	const [showModal, setShowModal] = useState("");
 
 	const [similar, setSimilar] = useState(
 		JSON.parse(localStorage.getItem("similar"))
@@ -30,54 +37,95 @@ const SingleBusiness = () => {
 	};
 
 	const like = () => {
-		setFavorited(true);
-	};
+		if (!token || !isLoggedIn) {
+			setShowModal("show-modal");
+		} else {
+			setFavorited(true);
 
-	const unlike = () => {
-		setFavorited(false);
-	};
+			const body = {
+				business,
+			};
 
-	useEffect(() => {
-		// setLoading(true);
-
-		if (!localStorage.getItem("business")) {
 			axios
-				.get(`${API_URL}/business/${id}`)
-				.then((response) => {
-					localStorage.setItem("business", JSON.stringify(response.data));
-					setBusiness(response.data);
-
-					return axios.post(`${API_URL}/search`, {
-						searchItem: response.data.categories[0].alias,
-						address: localStorage.getItem("address")
-							? localStorage.getItem("address")
-							: "USA",
-						limit: "6",
-					});
+				.post(`${API_URL}/like`, body, {
+					headers: { token },
 				})
 				.then((response) => {
-					setLoading(false);
-
-					localStorage.setItem(
-						"similar",
-						JSON.stringify(response.data.businesses)
-					);
-					setSimilar(response.data.businesses);
+					console.log(response);
 				})
 				.catch((err) => {
 					console.log(err);
 				});
-		} else {
-			setBusiness(JSON.parse(localStorage.getItem("business")));
 		}
+	};
+
+	const unlike = () => {
+		setFavorited(false);
+
+		const body = {
+			business,
+		};
+
+		axios
+			.post(`${API_URL}/unlike`, body, {
+				headers: { token },
+			})
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	useEffect(() => {
+		setLoading(true);
+
+		axios
+			.get(`${API_URL}/business/${id}`)
+			.then((response) => {
+				localStorage.setItem("business", JSON.stringify(response.data));
+				setBusiness(response.data);
+
+				return axios.post(`${API_URL}/search`, {
+					searchItem: response.data.categories[0].alias,
+					address: localStorage.getItem("address")
+						? localStorage.getItem("address")
+						: "USA",
+					limit: "6",
+				});
+			})
+			.then((response) => {
+				setLoading(false);
+				localStorage.setItem(
+					"similar",
+					JSON.stringify(response.data.businesses)
+				);
+
+				setSimilar(response.data.businesses);
+
+				if (token) {
+					return axios.get(`${API_URL}/favorites`, {
+						headers: { token },
+					});
+				}
+			})
+			.then((response) => {
+				const ids = response.data.favorites.map((el) => el.id);
+				if (ids.indexOf(id) !== -1) {
+					setFavorited(true);
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	}, [id]);
 
-	console.log(similar);
-
-	console.log(business);
 	return (
-		<div className={"business page " + theme}>
+		<div className={"business page " + theme + " " + showModal}>
 			<Navbar />
+
+			{showModal === "show-modal" && <Modal setShowModal={setShowModal} />}
 
 			{loading && <p>loading....</p>}
 

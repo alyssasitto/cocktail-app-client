@@ -97,6 +97,7 @@ function AuthProviderWrapper(props) {
 				})
 				.then((response) => {
 					const user = response.data;
+
 					// Set logged in state to true, loading to false, and the user to the user to the data returned
 					setIsLoggedIn(true);
 					setIsLoading(false);
